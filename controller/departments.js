@@ -77,10 +77,10 @@ module.exports.update = function(req, res) {
   };
   Department.findByIdAndUpdate(req.body._id, data, function(err, data) {
     if (err) return res.send(err);
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: "department details has been updated!",
-      data: data
+      data
     });
   });
 };
