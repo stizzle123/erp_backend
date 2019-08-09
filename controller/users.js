@@ -153,12 +153,38 @@ module.exports.updateProfileData = function(req, res) {
 
     updatedAt: Date.now()
   };
-  User.findByIdAndUpdate(req.body.id, data, function(err, profileData) {
-    if (err) {
-      res.send(err);
+  // User.findByIdAndUpdate(req.body.id, data, { new: true }, function(
+  //   err,
+  //   profileData
+  // ) {
+  //   if (err) {
+  //     // res.send(err);
+  //     res.json(err);
+  //   } else {
+  //     return res.status(200).json({
+  //       success: true,
+  //       message: "profile has been updated!",
+  //       data: profileData
+  //     });
+  //   }
+  // });
+
+  User.findByIdAndUpdate(
+    req.body.id,
+    { $set: data },
+    { new: true },
+    (err, profileData) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "profile has been updated!!!!",
+          profileData: profileData || undefined
+        });
+      }
     }
-    res.json({ success: true, message: "profile has been updated!" });
-  });
+  );
 };
 
 module.exports.requestResetToken = function(req, res, next) {
