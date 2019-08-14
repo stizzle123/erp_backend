@@ -3,8 +3,17 @@ var Department = mongoose.model("Department");
 
 exports.index = (req, res, next) => {
   Department.find().exec((err, docs) => {
-    if (err) return next(err);
-    else res.send(docs);
+    // if (err) return next(err);
+    // else res.send(docs);
+    if (err) {
+      next(err);
+      res.status(404).json({ success: false, msg: `Departments not found` });
+    } else {
+      res.status(200).json({
+        success: true,
+        docs
+      });
+    }
   });
 };
 
