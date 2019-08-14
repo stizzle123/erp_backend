@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const SignatureSchema = new Schema({
   signature: {
-    data: Buffer,
-    contentType: String
+    type: String,
+    required: true
   }
 });
 
