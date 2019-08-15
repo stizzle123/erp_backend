@@ -6,7 +6,23 @@ if (process.env.NODE_ENV === "production") {
   dbURI = process.env.MONGOLAB_URI;
 }
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useCreateIndex: true });
+const options = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  autoIndex: false,
+  reconnectTries: 100,
+  reconnectInterval: 500,
+  poolSize: 10,
+  bufferMaxEntries: 0
+};
+mongoose
+  .connect(dbURI, options)
+  .then(() => {
+    console.log(`[MongoDB]: Connection was successful`);
+  })
+  .catch(err =>
+    console.log(`[MongoError]: Connection to server failed: ${err}`)
+  );
 
 // CONNECTION EVENTS
 mongoose.connection.on("connected", function() {
